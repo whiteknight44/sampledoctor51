@@ -23,7 +23,7 @@
         <li class="nav-item mx-2"><a class="nav-link" href="#about">About Me</a></li>
       </ul>
     </div>
-    <button class="btn btn-primary" onclick="openBookingModal()">BOOK APPOINTMENT</button>
+<a href="booking.html" class="btn btn-primary">BOOK APPOINTMENT</a>
   </nav>
 
   <!-- Doctor Profile + Booking -->
@@ -40,7 +40,7 @@
             MS obstetrics and gynecology, Dip Reproductive medicine (Keil, Germany),
             CIMP (CREDENTIALED INDIAN MENOPAUSE PRACTITIONER)
           </p>
-          <button class="btn btn-primary" onclick="openBookingModal()">BOOK APPOINTMENT</button>
+<a href="booking.html" class="btn btn-primary">BOOK APPOINTMENT</a>
         </div>
         <div class="col-md-6">
           <div class="appointment-card p-4 rounded shadow">
@@ -245,147 +245,10 @@
   </section>
 
   <!-- WhatsApp Floating Button -->
-  <div class="whatsapp-float" onclick="openBookingModal()">
-    📱
-  </div>
-
-  <!-- Booking Modal -->
-  <div id="bookingModal" class="booking-modal">
-    <div class="booking-modal-content">
-      <div class="booking-header">
-        <h3>📱 Book Appointment</h3>
-        <button class="close-btn" onclick="closeBookingModal()">&times;</button>
-      </div>
-      <div class="booking-body">
-        <div class="doctor-info">
-          <img src="img/doctor1.jpg" alt="Dr Naresh Chander Sharma">
-          <h5>Dr Naresh Chander Sharma</h5>
-          <p class="text-muted mb-0">Obstetrics & Gynecology</p>
-        </div>
-
-        <form id="appointmentForm">
-          <div class="form-group">
-            <label for="patientName">Full Name *</label>
-            <input type="text" id="patientName" class="form-control" placeholder="Enter your full name" required>
-          </div>
-
-          <div class="form-group">
-            <label for="patientPhone">Phone Number *</label>
-            <input type="tel" id="patientPhone" class="form-control" placeholder="Enter your phone number" required>
-          </div>
-
-          <div class="form-group">
-            <label for="appointmentDate">Preferred Date *</label>
-            <input type="date" id="appointmentDate" class="form-control" required>
-          </div>
-
-          <div class="form-group">
-            <label>Preferred Time Slot *</label>
-            <div class="time-slots">
-              <div class="time-slot" onclick="selectTimeSlot(this)">5:15 PM</div>
-              <div class="time-slot" onclick="selectTimeSlot(this)">5:30 PM</div>
-              <div class="time-slot" onclick="selectTimeSlot(this)">6:00 PM</div>
-              <div class="time-slot" onclick="selectTimeSlot(this)">6:30 PM</div>
-              <div class="time-slot" onclick="selectTimeSlot(this)">7:00 PM</div>
-              <div class="time-slot" onclick="selectTimeSlot(this)">7:30 PM</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="patientMessage">Message (Optional)</label>
-            <textarea id="patientMessage" class="form-control" rows="3" placeholder="Any specific concerns or questions?"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">Send Appointment Request</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Set minimum date to today
-    document.addEventListener('DOMContentLoaded', function() {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('appointmentDate').setAttribute('min', today);
-    });
-
-    function openBookingModal() {
-      document.getElementById('bookingModal').style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeBookingModal() {
-      document.getElementById('bookingModal').style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-      const modal = document.getElementById('bookingModal');
-      if (event.target == modal) {
-        closeBookingModal();
-      }
-    }
-
-    function selectTimeSlot(element) {
-      // Remove previous selection
-      document.querySelectorAll('.time-slot').forEach(slot => {
-        slot.classList.remove('selected');
-      });
-      // Add selection to clicked slot
-      element.classList.add('selected');
-    }
-
-    // Handle form submission
-    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('patientName').value;
-      const phone = document.getElementById('patientPhone').value;
-      const date = document.getElementById('appointmentDate').value;
-      const selectedTimeSlot = document.querySelector('.time-slot.selected');
-      const message = document.getElementById('patientMessage').value;
-
-      if (!selectedTimeSlot) {
-        alert('Please select a time slot');
-        return;
-      }
-
-      const time = selectedTimeSlot.textContent;
-
-      // Format the WhatsApp message
-      const whatsappMessage = `Hi Dr. Naresh Chander Sharma,
-
-I would like to book an appointment with the following details:
-
-👤 Name: ${name}
-📞 Phone: ${phone}
-📅 Date: ${date}
-⏰ Time: ${time}
-${message ? `💬 Message: ${message}` : ''}
-
-Please confirm my appointment. Thank you!`;
-
-      // WhatsApp number (replace with actual number)
-      const whatsappNumber = '919876543210'; // Replace with doctor's actual WhatsApp number
-      
-      // Create WhatsApp URL
-      const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-      
-      // Open WhatsApp
-      window.open(whatsappURL, '_blank');
-      
-      // Close modal
-      closeBookingModal();
-      
-      // Reset form
-      this.reset();
-      document.querySelectorAll('.time-slot').forEach(slot => {
-        slot.classList.remove('selected');
-      });
-    });
-    
-  </script>
+  <a href="booking.html" class="whatsapp-float">
+  📱
+</a>
+  
   <!-- Footer -->
 <footer class="footer mt-5">
   <div class="footer-container container">

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whitestone Clinic - Payment & Appointment Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .clinic-info h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .clinic-info p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            text-align: right;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+        }
+
+        .payment-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+ 
+.qr-code-img {
+  width: 200px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+
+
+        .upi-id {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-method {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gpay { background: #e8f4fd; color: #1565c0; }
+        .paytm { background: #e3f2fd; color: #0277bd; }
+        .phonepe { background: #f3e5f5; color: #7b1fa2; }
+        .generic { background: #fff3e0; color: #f57c00; }
+
+        .appointment-form {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #dc2626;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+
+        .file-upload:hover {
+            border-color: #3b82f6;
+            background: #f0f9ff;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-preview {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            color: #166534;
+            font-size: 0.875rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.25rem;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #bbf7d0;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: #6b7280;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: #f9fafb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .contact-info {
+                text-align: center;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .clinic-info h1 {
+                font-size: 2rem;
+            }
+
+            .payment-section {
+                position: static;
+            }
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border: 1px solid;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-color: #dbeafe;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="clinic-info">
+                <h1>Dr. Whitestone Clinic</h1>
+                <p>Professional Healthcare Services</p>
+            </div>
+            <div class="contact-info">
+                <p><strong>Phone:</strong> +91 70511 89082</p>
+                <p><strong>UPI ID:</strong> 7006198840@okbizaxis</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="payment-section">
+            <h2 class="section-title">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                Payment QR Code
+            </h2>
+            
+            <div class="qr-container">
+                <img src="img/qr.jpg" alt="UPI QR Code" class="qr-code-img" />
+                <div class="upi-id">7006198840@okbizaxis</div>
+            </div>
+            
+            <div class="payment-methods">
+                <span class="payment-method gpay">Google Pay</span>
+                <span class="payment-method paytm">Paytm</span>
+                <span class="payment-method phonepe">PhonePe</span>
+                <span class="payment-method generic">Any UPI App</span>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>Instructions:</strong><br>
+                1. Scan the QR code with any UPI app<br>
+                2. Complete the payment<br>
+                3. Fill the form with payment details<br>
+                4. After submitting, you will be redirected to WhatsApp<br>
+                5. Share your payment screenshot on WhatsApp to confirm booking
+            </div>
+        </div>
+
+        <div class="appointment-form">
+            <h2 class="section-title">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Appointment & Payment Details
+            </h2>
+
+            <form id="appointmentForm" onsubmit="handleSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="customerName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="customerName" name="customerName" class="form-input" 
+                               placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="customerPhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="customerPhone" name="customerPhone" class="form-input" 
+                               placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="customerEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="customerEmail" name="customerEmail" class="form-input" 
+                               placeholder="Enter your email address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="appointmentDate">Preferred Date <span class="required">*</span></label>
+                        <input type="date" id="appointmentDate" name="appointmentDate" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="appointmentTime">Preferred Time <span class="required">*</span></label>
+                        <select id="appointmentTime" name="appointmentTime" class="form-input" required>
+                            <option value="">Select time slot</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="09:30">09:30 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="10:30">10:30 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="14:00">02:00 PM</option>
+                            <option value="14:30">02:30 PM</option>
+                            <option value="15:00">03:00 PM</option>
+                            <option value="15:30">03:30 PM</option>
+                            <option value="16:00">04:00 PM</option>
+                            <option value="16:30">04:30 PM</option>
+                            <option value="17:00">05:00 PM</option>
+                            <option value="17:30">05:30 PM</option>
+                            <option value="18:00">06:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="consultationType">Consultation Type <span class="required">*</span></label>
+                        <select id="consultationType" name="consultationType" class="form-input" required>
+                            <option value="">Select consultation type</option>
+                            <option value="general">General Consultation</option>
+                            <option value="followup">Follow-up Visit</option>
+                            <option value="emergency">Emergency Consultation</option>
+                            <option value="specialist">Specialist Consultation</option>
+                            <option value="checkup">Regular Health Checkup</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="paymentAmount">Consultation Fee (₹) <span class="required">*</span></label>
+                        <input type="number" id="paymentAmount" name="paymentAmount" class="form-input" 
+                               placeholder="Enter fee amount" step="0.01" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="transactionId">Transaction ID <span class="required">*</span></label>
+                        <input type="text" id="transactionId" name="transactionId" class="form-input" 
+                               placeholder="Enter payment transaction ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="paymentDate">Payment Date & Time <span class="required">*</span></label>
+                        <input type="datetime-local" id="paymentDate" name="paymentDate" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="symptoms">Symptoms / Health Concerns</label>
+                    <textarea id="symptoms" name="symptoms" class="form-input" 
+                              placeholder="Please describe your symptoms or health concerns (optional)" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" class="form-input" 
+                              placeholder="Any additional information (optional)" rows="2"></textarea>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="confirmDetails" name="confirmDetails" required>
+                    <label for="confirmDetails">
+                        I confirm that all the details provided are accurate and the payment has been completed successfully. I will share the payment screenshot on WhatsApp after submitting this form.
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Send Appointment Request
+                </button>
+            </form>
+
+            <div id="successMessage" class="success-message">
+                ✅ Appointment request sent successfully! Please share your payment screenshot on WhatsApp to confirm your booking.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const doctorWhatsApp = '+917051189082';
+        let formData = {};
+
+        // Initialize form on page load
+        window.addEventListener('load', function() {
+            // Set current date/time as default
+            const now = new Date();
+            const localISOTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('paymentDate').value = localISOTime;
+            
+            // Set minimum date for appointment (tomorrow)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('appointmentDate').min = tomorrow.toISOString().split('T')[0];
+            
+            // Load saved data if exists
+            loadSavedData();
+        });
+
+        // Save form data on input
+        document.addEventListener('input', function(e) {
+            if (e.target.form && e.target.form.id === 'appointmentForm') {
+                saveFormData();
+            }
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.form && e.target.form.id === 'appointmentForm') {
+                saveFormData();
+            }
+        });
+
+        function saveFormData() {
+            const form = document.getElementById('appointmentForm');
+            const data = new FormData(form);
+            const savedData = {};
+            
+            for (let [key, value] of data.entries()) {
+                if (key !== 'screenshot') {
+                    savedData[key] = value;
+                }
+            }
+            
+            // Save checkbox state separately
+            savedData.confirmDetails = document.getElementById('confirmDetails').checked;
+            
+            localStorage.setItem('clinicFormData', JSON.stringify(savedData));
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('clinicFormData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = data[key];
+                        } else {
+                            element.value = data[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Validate required fields
+            let isValid = true;
+            const requiredFields = ['customerName', 'customerEmail', 'customerPhone', 'appointmentDate', 
+                                   'appointmentTime', 'consultationType', 'paymentAmount', 'transactionId', 'paymentDate'];
+            
+            requiredFields.forEach(fieldId => {
+                const element = document.getElementById(fieldId);
+                const value = element.value.trim();
+                
+                if (!value) {
+                    element.classList.add('error');
+                    isValid = false;
+                } else {
+                    element.classList.remove('error');
+                }
+            });
+
+            // Validate checkbox
+            const confirmDetails = document.getElementById('confirmDetails').checked;
+            if (!confirmDetails) {
+                showAlert('Please confirm that all details are accurate', 'error');
+                return;
+            }
+
+            if (!isValid) {
+                showAlert('Please fill all required fields correctly', 'error');
+                return;
+            }
+
+            // Validate payment date
+            const paymentDate = new Date(document.getElementById('paymentDate').value);
+            if (isNaN(paymentDate.getTime())) {
+                showAlert('Please enter a valid payment date and time', 'error');
+                return;
+            }
+
+            // Process form submission
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            setTimeout(() => {
+                const message = createWhatsAppMessage();
+                const whatsappURL = `https://wa.me/${doctorWhatsApp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+                
+                window.open(whatsappURL, '_blank');
+                
+                document.getElementById('successMessage').style.display = 'block';
+                submitBtn.textContent = 'Sent ✓';
+                
+                // Clear saved data
+                localStorage.removeItem('clinicFormData');
+                
+                // Reset form after delay
+                setTimeout(() => {
+                    form.reset();
+                    document.getElementById('successMessage').style.display = 'none';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Appointment Request';
+                    
+                    // Reset default values
+                    const now = new Date();
+                    const localISOTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                    document.getElementById('paymentDate').value = localISOTime;
+                }, 5000);
+                
+            }, 1500);
+        }
+
+        function createWhatsAppMessage() {
+            const form = document.getElementById('appointmentForm');
+            const data = new FormData(form);
+            
+            let message = `🏥 *APPOINTMENT REQUEST - Dr. Whitestone Clinic*\n\n`;
+            
+            message += `👤 *Patient Information:*\n`;
+            message += `Name: ${data.get('customerName')}\n`;
+            message += `Phone: ${data.get('customerPhone')}\n`;
+            message += `Email: ${data.get('customerEmail')}\n\n`;
+            
+            message += `📅 *Appointment Details:*\n`;
+            message += `Preferred Date: ${data.get('appointmentDate')}\n`;
+            message += `Preferred Time: ${data.get('appointmentTime')}\n`;
+            message += `Consultation Type: ${data.get('consultationType')}\n\n`;
+            
+            message += `💰 *Payment Information:*\n`;
+            message += `Amount Paid: ₹${data.get('paymentAmount')}\n`;
+            message += `Transaction ID: ${data.get('transactionId')}\n`;
+            
+            const paymentDate = new Date(data.get('paymentDate'));
+            if (!isNaN(paymentDate.getTime())) {
+                message += `Payment Date: ${paymentDate.toLocaleDateString()} at ${paymentDate.toLocaleTimeString()}\n\n`;
+            }
+            
+            const symptoms = data.get('symptoms');
+            if (symptoms && symptoms.trim()) {
+                message += `🩺 *Symptoms/Health Concerns:*\n${symptoms.trim()}\n\n`;
+            }
+            
+            const notes = data.get('notes');
+            if (notes && notes.trim()) {
+                message += `📝 *Additional Notes:*\n${notes.trim()}\n\n`;
+            }
+            
+            message += `Please confirm the appointment availability. I will share the payment screenshot on WhatsApp.\n\n`;
+            message += `Thank you for choosing Dr. Whitestone Clinic!`;
+            
+            return message;
+        }
+
+        function showAlert(message, type) {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            const form = document.querySelector('.appointment-form');
+            form.insertBefore(alert, form.firstChild);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Prevent accidental page refresh with unsaved data
+        window.addEventListener('beforeunload', function(e) {
+            const hasUnsavedData = document.querySelector('.form-input[value]:not([value=""])') || 
+                                  document.getElementById('screenshot').files.length > 0;
+            
+            if (hasUnsavedData) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+    </script>
+</body>
+</html>
